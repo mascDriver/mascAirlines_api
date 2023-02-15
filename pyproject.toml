@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "mascairlines-api"
+version = "0.1.0"
+description = ""
+authors = ["mascDriver <diogoblibi@hotmail.com>"]
+readme = "README.md"
+packages = [{include = "mascairlines_api"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.92.0"
+uvicorn = "^0.20.0"
+sqlalchemy = "^2.0.3"
+email-validator = "^1.3.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
