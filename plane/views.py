@@ -18,12 +18,12 @@ def get_db():
         db.close()
 
 
-@router_plane.post("/plane/", response_model=schemas.Plane)
+@router_plane.post("/plane/", response_model=schemas.Plane, tags=['Plane'])
 async def create_plane(plane: schemas.Plane, db: Session = Depends(get_db)):
     return crud.create_db_plane(db=db, plane=plane)
 
 
-@router_plane.get("/plane/{plane_id}", response_model=schemas.Plane)
+@router_plane.get("/plane/{plane_id}", response_model=schemas.Plane, tags=['Plane'])
 async def read_plane(plane_id: int, db: Session = Depends(get_db)):
     db_plane = crud.get_plane(db, plane_id=plane_id)
     if db_plane is None:
@@ -31,12 +31,12 @@ async def read_plane(plane_id: int, db: Session = Depends(get_db)):
     return db_plane
 
 
-@router_plane.post("/seat/", response_model=schemas.Seat)
+@router_plane.post("/seat/", response_model=schemas.Seat, tags=['Plane'])
 async def create_seat(seat: schemas.SeatCreate, db: Session = Depends(get_db)):
     return crud.create_db_seat(db=db, seat=seat)
 
 
-@router_plane.get("/seat/{seat_id}", response_model=schemas.Seat)
+@router_plane.get("/seat/{seat_id}", response_model=schemas.Seat, tags=['Plane'])
 async def read_seat(seat_id: int, db: Session = Depends(get_db)):
     db_seat = crud.get_seat(db, seat_id=seat_id)
     if db_seat is None:
@@ -44,12 +44,12 @@ async def read_seat(seat_id: int, db: Session = Depends(get_db)):
     return db_seat
 
 
-@router_plane.post("/route/", response_model=schemas.Route)
+@router_plane.post("/route/", response_model=schemas.Route, tags=['Plane'])
 async def create_route(route: schemas.RouteCreate, db: Session = Depends(get_db)):
     return crud.create_db_route(db=db, route=route)
 
 
-@router_plane.get("/route/{route_id}", response_model=schemas.Route)
+@router_plane.get("/route/{route_id}", response_model=schemas.Route, tags=['Plane'])
 async def read_seat(route_id: int, db: Session = Depends(get_db)):
     db_route = crud.get_route(db, route_id=route_id)
     if db_route is None:

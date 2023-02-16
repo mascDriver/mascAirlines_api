@@ -18,7 +18,7 @@ def get_db():
         db.close()
 
 
-@router_user.post("/consumer/", response_model=schemas.Consumer)
+@router_user.post("/consumer/", response_model=schemas.Consumer, tags=['User'])
 async def create_consumer(consumer: schemas.Consumer, db: Session = Depends(get_db)):
     db_consumer = crud.get_user_by_email(db, email=consumer.user.email)
     if db_consumer:
@@ -26,7 +26,7 @@ async def create_consumer(consumer: schemas.Consumer, db: Session = Depends(get_
     return crud.create_consumer(db=db, consumer=consumer)
 
 
-@router_user.get("/consumer/{consumer_id}", response_model=schemas.Consumer)
+@router_user.get("/consumer/{consumer_id}", response_model=schemas.Consumer, tags=['User'])
 async def read_consumer(consumer_id: int, db: Session = Depends(get_db)):
     db_consumer = crud.get_consumer(db, consumer_id=consumer_id)
     if db_consumer is None:
@@ -34,7 +34,7 @@ async def read_consumer(consumer_id: int, db: Session = Depends(get_db)):
     return db_consumer
 
 
-@router_user.post("/seller/", response_model=schemas.Consumer)
+@router_user.post("/seller/", response_model=schemas.Consumer, tags=['User'])
 async def create_seller(seller: schemas.Seller, db: Session = Depends(get_db)):
     db_seller = crud.get_user_by_email(db, email=seller.user.email)
     if db_seller:
@@ -42,7 +42,7 @@ async def create_seller(seller: schemas.Seller, db: Session = Depends(get_db)):
     return crud.create_seller(db=db, seller=seller)
 
 
-@router_user.get("/seller/{seller_id}", response_model=schemas.Seller)
+@router_user.get("/seller/{seller_id}", response_model=schemas.Seller, tags=['User'])
 async def read_seller(seller_id: int, db: Session = Depends(get_db)):
     db_seller = crud.get_seller(db, seller_id=seller_id)
     if db_seller is None:
