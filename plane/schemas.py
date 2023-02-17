@@ -3,6 +3,7 @@ from datetime import datetime
 
 
 class Plane(BaseModel):
+    id: int | None
     model: str
     tax_business: float
     tax_premium: float
@@ -12,6 +13,7 @@ class Plane(BaseModel):
 
 
 class SeatBase(BaseModel):
+    id: int | None
     is_business: bool | None
     is_premium: bool | None
     is_economy: bool | None
@@ -33,6 +35,7 @@ class Seat(SeatBase):
 
 
 class RouteBase(BaseModel):
+    id: int | None
     origin: str
     depart: datetime
     destiny: str

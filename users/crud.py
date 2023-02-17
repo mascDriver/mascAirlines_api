@@ -15,6 +15,28 @@ def get_user_by_email(db: Session, email: str):
     return db.query(models.User).filter(models.User.email == email).first()
 
 
+def get_consumer_by_email(db: Session, email: str):
+    return db.query(models.Consumer).filter(models.Consumer.user.has(email=email)).first()
+
+
+def get_seller_by_email(db: Session, email: str):
+    return db.query(models.Seller).filter(models.Seller.user.has(email=email)).first()
+
+
+def get_login(db: Session, consumer_email: str, consumer_pass: str):
+    return db.query(models.Consumer).filter(
+        models.Consumer.user.has(email=consumer_email),
+        models.Consumer.user.has(password=consumer_pass)
+    ).first()
+
+
+def get_login_seller(db: Session, consumer_email: str, consumer_pass: str):
+    return db.query(models.Seller).filter(
+        models.Seller.user.has(email=consumer_email),
+        models.Seller.user.has(password=consumer_pass)
+    ).first()
+
+
 def create_user(db: Session, user: schemas.User):
     db_user = models.User(**user.dict())
     db.add(db_user)

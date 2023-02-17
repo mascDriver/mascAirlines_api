@@ -1,15 +1,15 @@
 from datetime import datetime
 
-from sqlalchemy import Column, ForeignKey, Integer, Float, DateTime
+from sqlalchemy import Column, ForeignKey, Integer, Float, DateTime, Text
 from sqlalchemy.orm import relationship
-
+import uuid
 from db.database import Base
 
 
 class Order(Base):
     __tablename__ = "order"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Text(length=36),default=lambda: str(uuid.uuid4()), primary_key=True)
     consumer_id = Column(Integer, ForeignKey("consumer.id"))
     seller_id = Column(Integer, ForeignKey("seller.id"))
     route_id = Column(Integer, ForeignKey("route.id"))

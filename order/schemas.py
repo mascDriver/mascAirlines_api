@@ -7,7 +7,6 @@ from users.schemas import ConsumerResponse, SellerResponse
 
 
 class OrderCreate(BaseModel):
-    consumer_id: int
     seller_id: int
     route_id: int
     seat_id: int
@@ -17,6 +16,7 @@ class OrderCreate(BaseModel):
 
 
 class Order(BaseModel):
+    id: str | None
     consumer: ConsumerResponse
     seller: SellerResponse
     route: Route

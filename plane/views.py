@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 
 from db.database import SessionLocal, engine
 from plane import models, schemas, crud
+from users import schemas as schemas_users, security as security_users
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -19,12 +20,14 @@ def get_db():
 
 
 @router_plane.post("/plane/", response_model=schemas.Plane, tags=['Plane'])
-async def create_plane(plane: schemas.Plane, db: Session = Depends(get_db)):
+async def create_plane(plane: schemas.Plane, db: Session = Depends(get_db),
+                       seller: schemas_users.Seller = Depends(security_users.get_current_active_seller)):
     return crud.create_db_plane(db=db, plane=plane)
 
 
 @router_plane.get("/plane/{plane_id}", response_model=schemas.Plane, tags=['Plane'])
-async def read_plane(plane_id: int, db: Session = Depends(get_db)):
+async def read_plane(plane_id: int, db: Session = Depends(get_db),
+                     seller: schemas_users.Seller = Depends(security_users.get_current_active_seller)):
     db_plane = crud.get_plane(db, plane_id=plane_id)
     if db_plane is None:
         raise HTTPException(status_code=404, detail="Plane not found")
@@ -32,12 +35,14 @@ async def read_plane(plane_id: int, db: Session = Depends(get_db)):
 
 
 @router_plane.post("/seat/", response_model=schemas.Seat, tags=['Plane'])
-async def create_seat(seat: schemas.SeatCreate, db: Session = Depends(get_db)):
+async def create_seat(seat: schemas.SeatCreate, db: Session = Depends(get_db),
+                      seller: schemas_users.Seller = Depends(security_users.get_current_active_seller)):
     return crud.create_db_seat(db=db, seat=seat)
 
 
 @router_plane.get("/seat/{seat_id}", response_model=schemas.Seat, tags=['Plane'])
-async def read_seat(seat_id: int, db: Session = Depends(get_db)):
+async def read_seat(seat_id: int, db: Session = Depends(get_db),
+                    seller: schemas_users.Seller = Depends(security_users.get_current_active_seller)):
     db_seat = crud.get_seat(db, seat_id=seat_id)
     if db_seat is None:
         raise HTTPException(status_code=404, detail="Seat not found")
@@ -45,12 +50,14 @@ async def read_seat(seat_id: int, db: Session = Depends(get_db)):
 
 
 @router_plane.post("/route/", response_model=schemas.Route, tags=['Plane'])
-async def create_route(route: schemas.RouteCreate, db: Session = Depends(get_db)):
+async def create_route(route: schemas.RouteCreate, db: Session = Depends(get_db),
+                       seller: schemas_users.Seller = Depends(security_users.get_current_active_seller)):
     return crud.create_db_route(db=db, route=route)
 
 
 @router_plane.get("/route/{route_id}", response_model=schemas.Route, tags=['Plane'])
-async def read_seat(route_id: int, db: Session = Depends(get_db)):
+async def read_seat(route_id: int, db: Session = Depends(get_db),
+                    seller: schemas_users.Seller = Depends(security_users.get_current_active_seller)):
     db_route = crud.get_route(db, route_id=route_id)
     if db_route is None:
         raise HTTPException(status_code=404, detail="Route not found")

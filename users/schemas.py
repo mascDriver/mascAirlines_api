@@ -21,6 +21,7 @@ class User(UserBase):
 
 class Consumer(BaseModel):
     user: User
+    is_active: bool | None
 
     class Config:
         orm_mode = True
@@ -28,6 +29,7 @@ class Consumer(BaseModel):
 
 class Seller(BaseModel):
     user: User
+    is_active: bool | None
 
     class Config:
         orm_mode = True
@@ -45,3 +47,13 @@ class ConsumerResponse(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+
+class TokenData(BaseModel):
+    email: str | None = None
+    password: str | None = None
