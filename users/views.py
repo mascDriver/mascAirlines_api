@@ -5,7 +5,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 
 from db.database import SessionLocal, engine
-from users.security import create_access_token, get_current_active_user
+from users.security import create_access_token, get_current_active_user, get_current_active_seller
 from users import models, schemas, crud
 
 models.Base.metadata.create_all(bind=engine)
@@ -46,12 +46,11 @@ async def create_seller(seller: schemas.Seller, db: Session = Depends(get_db)):
     return crud.create_seller(db=db, seller=seller)
 
 
-@router_user.get("/seller/{seller_id}", response_model=schemas.Seller, tags=['User'])
-async def read_seller(seller_id: int, db: Session = Depends(get_db)):
-    db_seller = crud.get_seller(db, seller_id=seller_id)
-    if db_seller is None:
-        raise HTTPException(status_code=404, detail="User not found")
-    return db_seller
+@router_user.get("/seller/", response_model=schemas.Seller, tags=['User'])
+async def read_seller(seller: schemas.Seller = Depends(get_current_active_seller)):
+    if seller:
+        return seller
+    raise HTTPException(status_code=404, detail="User not found")
 
 
 @router_user.post("/token", response_model=schemas.Token, tags=['User'])

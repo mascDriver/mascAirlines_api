@@ -9,7 +9,7 @@ from users.schemas import ConsumerResponse, SellerResponse
 class OrderCreate(BaseModel):
     seller_id: int
     route_id: int
-    seat_id: int
+    seat_number: int
 
     class Config:
         orm_mode = True
