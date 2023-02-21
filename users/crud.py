@@ -61,3 +61,13 @@ def create_seller(db: Session, seller: schemas.Seller):
     db.commit()
     db.refresh(db_seller)
     return db_seller
+
+
+# import httpx
+# from users.models import Uf
+# from sqlalchemy.orm import Session
+#
+# db = Session
+# ufs = []
+# for uf in httpx.get('https://servicodados.ibge.gov.br/api/v1/localidades/estados').json():
+#     ufs.append(Uf(id=uf['id'], abbreviation=uf['sigla'], name=uf['nome']))

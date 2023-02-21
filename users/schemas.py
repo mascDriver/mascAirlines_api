@@ -1,6 +1,24 @@
 from pydantic import BaseModel
 
 
+class Uf(BaseModel):
+    id: int
+    name: str
+    abbreviation: str
+
+    class Config:
+        orm_mode = True
+
+
+class City(BaseModel):
+    id: int | None
+    name: str | None
+    uf: Uf | None
+
+    class Config:
+        orm_mode = True
+
+
 class UserBase(BaseModel):
     name: str
     last_name: str
@@ -14,6 +32,7 @@ class UserBase(BaseModel):
 
 class User(UserBase):
     password: str
+    city: City
 
     class Config:
         orm_mode = True

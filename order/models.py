@@ -4,6 +4,7 @@ from sqlalchemy import Column, ForeignKey, Integer, Float, DateTime, Text
 from sqlalchemy.orm import relationship
 import uuid
 from db.database import Base
+from plane.models import Route
 
 
 class Order(Base):
@@ -18,6 +19,6 @@ class Order(Base):
     order_date = Column(DateTime, default=datetime.now())
 
     consumer = relationship("Consumer", back_populates="order")
-    route = relationship("Route", back_populates="order")
+    route = relationship(Route, back_populates="order")
     seller = relationship("Seller", back_populates="order")
     seat = relationship("Seat", back_populates="order")
