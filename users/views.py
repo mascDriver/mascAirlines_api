@@ -23,7 +23,7 @@ def get_db():
         db.close()
 
 
-@router_user.post("/consumer/", response_model=schemas.Consumer, tags=['User'])
+@router_user.post("/consumer/", response_model=schemas.ConsumerResponse, tags=['User'])
 async def create_consumer(consumer: schemas.Consumer, db: Session = Depends(get_db)):
     db_consumer = crud.get_user_by_email(db, email=consumer.user.email)
     if db_consumer:
@@ -31,7 +31,7 @@ async def create_consumer(consumer: schemas.Consumer, db: Session = Depends(get_
     return crud.create_consumer(db=db, consumer=consumer)
 
 
-@router_user.get("/consumer/", response_model=schemas.Consumer, tags=['User'])
+@router_user.get("/consumer/", response_model=schemas.ConsumerResponse, tags=['User'])
 async def read_consumer(consumer: schemas.Consumer = Depends(get_current_active_user)):
     if consumer:
         return consumer

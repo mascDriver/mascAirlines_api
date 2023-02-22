@@ -47,7 +47,10 @@ def create_user(db: Session, user: schemas.User):
 
 def create_consumer(db: Session, consumer: schemas.Consumer):
     db_user = create_user(db, user=consumer.user)
-    db_consumer = models.Consumer(user_id=db_user.id)
+    consumer = consumer.dict()
+    consumer.pop('user')
+    print(consumer)
+    db_consumer = models.Consumer(user_id=db_user.id, **consumer)
     db.add(db_consumer)
     db.commit()
     db.refresh(db_consumer)
@@ -63,11 +66,3 @@ def create_seller(db: Session, seller: schemas.Seller):
     return db_seller
 
 
-# import httpx
-# from users.models import Uf
-# from sqlalchemy.orm import Session
-#
-# db = Session
-# ufs = []
-# for uf in httpx.get('https://servicodados.ibge.gov.br/api/v1/localidades/estados').json():
-#     ufs.append(Uf(id=uf['id'], abbreviation=uf['sigla'], name=uf['nome']))

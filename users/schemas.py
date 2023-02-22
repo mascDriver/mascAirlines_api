@@ -23,8 +23,6 @@ class UserBase(BaseModel):
     name: str
     last_name: str
     email: str
-    cellphone: int
-    address: str
 
     class Config:
         orm_mode = True
@@ -32,7 +30,6 @@ class UserBase(BaseModel):
 
 class User(UserBase):
     password: str
-    city: City
 
     class Config:
         orm_mode = True
@@ -40,6 +37,9 @@ class User(UserBase):
 
 class Consumer(BaseModel):
     user: User
+    city_id: int
+    cellphone: int
+    address: str
     is_active: bool | None
 
     class Config:
@@ -63,6 +63,9 @@ class SellerResponse(BaseModel):
 
 class ConsumerResponse(BaseModel):
     user: UserBase
+    cellphone: int
+    address: str
+    city: City | None
 
     class Config:
         orm_mode = True
