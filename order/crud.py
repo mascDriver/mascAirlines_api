@@ -1,12 +1,9 @@
 from sqlalchemy.orm import Session
 
 from order import models, schemas
-from plane.crud import get_seat_by_number, get_route
 
 
-def create_db_order(db: Session, order: schemas.OrderCreate, consumer):
-    route = get_route(db, order.route_id)
-    seat = get_seat_by_number(db, number=order.seat_number, plane_id=route.plane_id)
+def create_db_order(db: Session, order: schemas.OrderCreate, consumer, seat, route):
     total = route.price
     if seat.is_business:
         total = route.price + round(route.price * (route.plane.tax_business/100), 2)
@@ -16,6 +13,7 @@ def create_db_order(db: Session, order: schemas.OrderCreate, consumer):
     order.pop('seat_number')
     db_order = models.Order(**order, total=total, consumer_id=consumer.id, seat_id=seat.id)
     db.add(db_order)
+    seat.is_available = False
     db.commit()
     db.refresh(db_order)
     return db_order
@@ -23,3 +21,7 @@ def create_db_order(db: Session, order: schemas.OrderCreate, consumer):
 
 def get_order(db: Session, order_id: str):
     return db.query(models.Order).filter(models.Order.id == order_id).first()
+
+
+def get_order_by_consumer(db: Session, consumer_id: int):
+    return db.query(models.Order).filter(models.Order.consumer_id == consumer_id).all()

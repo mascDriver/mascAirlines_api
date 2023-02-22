@@ -38,7 +38,7 @@ async def read_consumer(consumer: schemas.Consumer = Depends(get_current_active_
     raise HTTPException(status_code=404, detail="User not found")
 
 
-@router_user.post("/seller/", response_model=schemas.Consumer, tags=['User'])
+@router_user.post("/seller/", response_model=schemas.Seller, tags=['User'])
 async def create_seller(seller: schemas.Seller, db: Session = Depends(get_db)):
     db_seller = crud.get_user_by_email(db, email=seller.user.email)
     if db_seller:

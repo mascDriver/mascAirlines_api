@@ -47,5 +47,9 @@ def get_route(db: Session, route_id: int):
     return db.query(models.Route).filter(models.Route.id == route_id).first()
 
 
+def get_route_by_city(db: Session, origin_id: int, destiny_id: int):
+    return db.query(models.Route).filter(models.Route.origin_id == origin_id, models.Route.destiny_id == destiny_id).first()
+
+
 def get_seat_by_number(db: Session, number: int, plane_id: int):
     return db.query(models.Seat).filter(models.Seat.number == number, models.Seat.plane_id == plane_id).first()

@@ -14,6 +14,10 @@ tags_metadata = [
         "description": "Operations with plane. Create plane, seat and route is here.",
     },
     {
+        "name": "Route",
+        "description": "Operations with route. Create route and get routes by city names.",
+    },
+    {
         "name": "Order",
         "description": "Operations with order. Create order and calculate order with seat and route is here.",
     },

@@ -23,6 +23,7 @@ class Seat(Base):
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     number = Column(Integer)
     plane_id = Column(Integer, ForeignKey("plane.id"))
+    is_available = Column(Boolean, default=True)
     is_business = Column(Boolean, default=False)
     is_premium = Column(Boolean, default=False)
     is_economy = Column(Boolean, default=True)
@@ -36,11 +37,13 @@ class Route(Base):
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     plane_id = Column(Integer, ForeignKey("plane.id"))
-    origin = Column(String, index=True)
+    origin_id = Column(Integer, ForeignKey("city.id"))
     depart = Column(DateTime)
-    destiny = Column(String, index=True)
+    destiny_id = Column(Integer, ForeignKey("city.id"))
     arrival = Column(DateTime)
     price = Column(Float, index=True)
 
+    origin = relationship("City", foreign_keys=[origin_id])
+    destiny = relationship("City", foreign_keys=[destiny_id])
     plane = relationship("Plane", back_populates="route")
     order = relationship("Order", back_populates="route")

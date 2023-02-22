@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field, EmailStr, SecretStr
 
 
 class Uf(BaseModel):
@@ -20,27 +20,28 @@ class City(BaseModel):
 
 
 class UserBase(BaseModel):
-    name: str
-    last_name: str
-    email: str
+    name: str = Field(example='Diogo')
+    last_name: str = Field(example='Silva')
+    email: EmailStr = Field(example='diogo@hotmail.com')
 
     class Config:
         orm_mode = True
 
 
 class User(UserBase):
-    password: str
+    password: SecretStr = Field(example='123')
 
     class Config:
         orm_mode = True
 
 
 class Consumer(BaseModel):
+    id: int | None = Field(example=1)
     user: User
-    city_id: int
-    cellphone: int
-    address: str
-    is_active: bool | None
+    city_id: int = Field(example=3550308)
+    cellphone: int = Field(example=999999999)
+    address: str = Field(example='Avenida Brasil, 777, jd Brasil')
+    is_active: bool | None = Field(example=True)
 
     class Config:
         orm_mode = True
@@ -48,7 +49,7 @@ class Consumer(BaseModel):
 
 class Seller(BaseModel):
     user: User
-    is_active: bool | None
+    is_active: bool | None = Field(example=True)
 
     class Config:
         orm_mode = True

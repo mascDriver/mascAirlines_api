@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 
 from users import models, schemas
+from users.models import City
 
 
 def get_consumer(db: Session, consumer_id: int):
@@ -39,6 +40,7 @@ def get_login_seller(db: Session, consumer_email: str, consumer_pass: str):
 
 def create_user(db: Session, user: schemas.User):
     db_user = models.User(**user.dict())
+    db_user.password = user.password.get_secret_value()
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
@@ -49,7 +51,6 @@ def create_consumer(db: Session, consumer: schemas.Consumer):
     db_user = create_user(db, user=consumer.user)
     consumer = consumer.dict()
     consumer.pop('user')
-    print(consumer)
     db_consumer = models.Consumer(user_id=db_user.id, **consumer)
     db.add(db_consumer)
     db.commit()
@@ -65,4 +66,7 @@ def create_seller(db: Session, seller: schemas.Seller):
     db.refresh(db_seller)
     return db_seller
 
+
+def get_city(db: Session, q: str):
+    return db.query(City).filter(City.name.ilike(f"{q}%")).all()
 
