@@ -66,7 +66,7 @@ async def get_city(city: str | None = Query(default='São Paulo', min_length=3, 
     return crud_users.get_city(db, q=city)
 
 
-@router_plane.get("/route/{origin_id}/{destiny_id}", response_model=schemas.Route, tags=['Route'])
+@router_plane.get("/route/{origin_id}/{destiny_id}", response_model=list[schemas.Route], tags=['Route'])
 async def read_route_by_city(origin_id: int, destiny_id: int, db: Session = Depends(get_db)):
     db_route = crud.get_route_by_city(db, origin_id=origin_id, destiny_id=destiny_id)
     if db_route is None:
