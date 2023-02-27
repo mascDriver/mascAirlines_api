@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from users.views import router_user
 from plane.views import router_plane
 from order.views import router_order
+from fastapi.middleware.cors import CORSMiddleware
 
 tags_metadata = [
     {
@@ -32,6 +33,19 @@ app = FastAPI(
         'email': 'diogobaltazardonascimento@outlook.com',
     },
     openapi_tags=tags_metadata
+)
+origins = [
+    "http://localhost",
+    "http://localhost:8001",
+    "http://localhost:19006",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 

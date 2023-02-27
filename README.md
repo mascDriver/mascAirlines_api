@@ -55,7 +55,49 @@ db.add_all(cidades)
 db.commit()
 
 ```
+Para popular todo o banco use esse codigo
+```python
 
+from users.models import Consumer, City, User
+from plane.models import Plane, Seat, Route
+from db.database import SessionLocal
+from faker import Faker
+import random
+db = SessionLocal()
+fake = Faker(['pt_BR'])
+citys = db.query(City).all()
+for _ in range(100):
+    user = User(name=fake.first_name(), last_name=fake.last_name(), email=fake.email(), password=fake.random_int(max=3))
+    db.add(user)
+    db.commit()
+    consumer = Consumer(cellphone=fake.cellphone_number(), address=fake.address(), city_id=random.randint(0, 5570),
+                        user_id=user.id)
+    db.add(consumer)
+
+for _ in range(50):
+    plane = Plane(model=fake.random_letter(), tax_business=fake.random_int(max=3), tax_premium=fake.random_int(max=3))
+    db.add(plane)
+    db.commit()
+    for __ in range(10):
+        seat = Seat(plane_id=plane.id, is_business=True, is_economy=False)
+        db.add(seat)
+        db.commit()
+    for __ in range(10):
+        seat = Seat(plane_id=plane.id, is_premium=True, is_economy=False)
+        db.add(seat)
+        db.commit()
+    for __ in range(60):
+        seat = Seat(plane_id=plane.id)
+        db.add(seat)
+        db.commit()
+    for __ in range(100):
+        route = Route(plane_id=plane.id, origin_id=random.randint(0, 5570), destiny_id=random.randint(0, 5570),
+                      price=fake.pricetag().replace('R$', '').replace('.', '').replace(',', '.'), depart=fake.future_datetime(), arrival=fake.future_datetime())
+        db.add(route)
+        db.commit()
+        
+
+```
 ### 3. DOC
 Para verificar a doc do projeto acesse:
 
