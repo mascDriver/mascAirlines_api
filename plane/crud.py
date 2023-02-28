@@ -53,3 +53,7 @@ def get_route_by_city(db: Session, origin_id: int, destiny_id: int):
 
 def get_seat_by_number(db: Session, number: int, plane_id: int):
     return db.query(models.Seat).filter(models.Seat.number == number, models.Seat.plane_id == plane_id).first()
+
+
+def get_seat_by_plane(db: Session, type_seat: str, plane_id: int):
+    return db.query(models.Seat).filter(getattr(models.Seat, type_seat) == True, models.Seat.plane_id == plane_id).all()

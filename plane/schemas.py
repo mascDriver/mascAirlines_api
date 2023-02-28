@@ -31,6 +31,7 @@ class SeatCreate(SeatBase):
 class Seat(SeatBase):
     plane: Plane | None
     number: int
+    is_available: bool
 
     class Config:
         orm_mode = True

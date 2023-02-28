@@ -72,3 +72,11 @@ async def read_route_by_city(origin_id: int, destiny_id: int, db: Session = Depe
     if db_route is None:
         raise HTTPException(status_code=404, detail="Route not found")
     return db_route
+
+
+@router_plane.get("/seat/{plane_id}/", response_model=list[schemas.Seat], tags=['Plane'])
+async def read_route_by_city(plane_id: int, type_seat: str = Query(), db: Session = Depends(get_db)):
+    db_seat = crud.get_seat_by_plane(db, type_seat=type_seat, plane_id=plane_id)
+    if db_seat is None:
+        raise HTTPException(status_code=404, detail="Seat not found")
+    return db_seat
