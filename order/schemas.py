@@ -18,7 +18,7 @@ class OrderCreate(BaseModel):
 class Order(BaseModel):
     id: str | None
     consumer: ConsumerResponse
-    seller: SellerResponse
+    seller: SellerResponse | None
     route: Route
     seat: Seat
     total: float

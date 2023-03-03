@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session
 
 from users import models, schemas
 from users.models import City
+from sqlalchemy.sql.functions import ReturnTypeFromArgs, func
 
 
 def get_consumer(db: Session, consumer_id: int):
@@ -67,8 +68,12 @@ def create_seller(db: Session, seller: schemas.Seller):
     return db_seller
 
 
+class unaccent(ReturnTypeFromArgs):
+    pass
+
+
 def get_city(db: Session, q: str):
-    city = db.query(City).filter(City.name.ilike(f"{q.strip()}")).all()
+    city = db.query(City).filter(unaccent(func.lower(City.name.ilike(f"{q.strip()}")))).all()
     if not city:
         return db.query(City).filter(City.name.ilike(f"{q.strip()}%")).all()
     return city
