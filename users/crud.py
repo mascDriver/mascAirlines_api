@@ -68,5 +68,8 @@ def create_seller(db: Session, seller: schemas.Seller):
 
 
 def get_city(db: Session, q: str):
-    return db.query(City).filter(City.name.ilike(f"{q}%")).all()
+    city = db.query(City).filter(City.name.ilike(f"{q.strip()}")).all()
+    if not city:
+        return db.query(City).filter(City.name.ilike(f"{q.strip()}%")).all()
+    return city
 
